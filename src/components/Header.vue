@@ -1,5 +1,5 @@
-
 <script setup>
+import { computed } from 'vue'
 
 const props = defineProps({
     cart: {
@@ -13,6 +13,10 @@ const props = defineProps({
 })
 
 defineEmits(['add-quantity', 'subtract-quantity', 'remove-from-cart', 'clear-cart', 'add-to-cart'])
+
+const total = computed(() => {
+    return props.cart.reduce((acc, item) => acc + item.precio * item.quantity, 0)
+})
 
 </script>
 
@@ -89,7 +93,7 @@ defineEmits(['add-quantity', 'subtract-quantity', 'remove-from-cart', 'clear-car
                                     </tbody>
                                 </table>
     
-                                <p class="text-end">Total pagar: <span class="fw-bold">$899</span></p>
+                                <p class="text-end">Total pagar: <span class="fw-bold">${{ total }}</span></p>
                                 <button 
                                     class="btn btn-dark w-100 mt-3 p-2"
                                     @click="$emit('clear-cart')"

@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, watch} from 'vue'
 import {db} from './data/guitars'
 
 import Guitar from './components/Guitar.vue'
@@ -11,21 +11,32 @@ const guitars = ref([])
 const cart = ref([])
 const guitar = ref({})
 
+const saveLocalStorage = () => {
+    localStorage.setItem('cart', JSON.stringify(cart.value))
+}
+
+watch(cart, saveLocalStorage, {deep: true})
+
 onMounted(() => {
     guitars.value = db
-
     guitar.value = db[3] //Guitarra por defecto, mala practica
+
+    const localCart = localStorage.getItem('cart')
+    if (localCart) {
+        cart.value = JSON.parse(localCart)
+    }
 })
+
 
 const addToCart = (guitar) => {
     const exists = cart.value.findIndex(item => item.id === guitar.id)
 
     if (exists !== -1) {
         cart.value[exists].quantity++
-        return
+    }else{
+        guitar.quantity = 1
+        cart.value.push(guitar)
     }
-    guitar.quantity = 1
-    cart.value.push(guitar)
 }
 
 const removeFromCart = (id) => {
@@ -44,6 +55,7 @@ const addQuantity = (id) => {
     }
 
     cart.value[exists].quantity++
+
 }
 
 const subtractQuantity = (id) => {
