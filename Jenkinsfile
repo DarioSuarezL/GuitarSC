@@ -20,7 +20,14 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'npm test'
+                sh 'npm run test'
+            }
+        }
+
+
+        stage('Lint') {
+            steps {
+                sh 'npm run lint'
             }
         }
 
