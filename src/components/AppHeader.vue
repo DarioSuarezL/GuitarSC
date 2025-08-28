@@ -21,7 +21,7 @@ const total = computed(() => {
 </script>
 
 <template>
-<header class="py-5 header">
+    <header class="py-5 header">
         <div class="container-xl">
             <div class="row justify-content-center justify-content-md-between">
                 <div class="col-8 col-md-3">
@@ -30,9 +30,7 @@ const total = computed(() => {
                     </a>
                 </div>
                 <nav class="col-md-6 a mt-5 d-flex align-items-start justify-content-end">
-                    <div 
-                        class="carrito"
-                    >
+                    <div class="carrito">
                         <img class="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
 
                         <div id="carrito" class="bg-white p-3">
@@ -49,56 +47,39 @@ const total = computed(() => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr
-                                            v-for="item in cart"
-                                        >
+                                        <tr v-for="item in cart" :key="item.id">
                                             <td>
-                                                <img
-                                                    class="img-fluid"
-                                                    :src="'/img/'+item.imagen+'.jpg'"
-                                                    :alt="'imagen guitarra '+item.nombre"
-                                                >
+                                                <img class="img-fluid" :src="'/img/' + item.imagen + '.jpg'"
+                                                    :alt="'imagen guitarra ' + item.nombre">
                                             </td>
                                             <td>{{ item.nombre }}</td>
                                             <td class="fw-bold">
-                                                    ${{ item.precio }}
+                                                ${{ item.precio }}
                                             </td>
                                             <td class="flex align-items-start gap-4">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-dark"
-                                                    @click="$emit('subtract-quantity', item.id)"
-                                                >
+                                                <button type="button" class="btn btn-dark"
+                                                    @click="$emit('subtract-quantity', item.id)">
                                                     -
                                                 </button>
-                                                    {{ item.quantity }}
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-dark"
-                                                    @click="$emit('add-quantity', item.id)"
-                                                >
+                                                {{ item.quantity }}
+                                                <button type="button" class="btn btn-dark"
+                                                    @click="$emit('add-quantity', item.id)">
                                                     +
                                                 </button>
                                             </td>
                                             <td>
-                                                <button
-                                                    class="btn btn-danger"
-                                                    type="button"
-                                                    @click="$emit('remove-from-cart', item.id)"
-                                                >
+                                                <button class="btn btn-danger" type="button"
+                                                    @click="$emit('remove-from-cart', item.id)">
                                                     X
                                                 </button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-    
+
                                 <p class="text-end">Total pagar: <span class="fw-bold">${{ total }}</span></p>
-                                <button 
-                                    class="btn btn-dark w-100 mt-3 p-2"
-                                    @click="$emit('clear-cart')"
-                                >
-                                Vaciar Carrito
+                                <button class="btn btn-dark w-100 mt-3 p-2" @click="$emit('clear-cart')">
+                                    Vaciar Carrito
                                 </button>
                             </div>
                         </div>
@@ -111,11 +92,8 @@ const total = computed(() => {
                     <h1 class="display-2 fw-bold">Modelo {{ guitar.nombre }}</h1>
                     <p class="mt-5 fs-5 text-white">{{ guitar.descripcion }}</p>
                     <p class="text-primary fs-1 fw-black">${{ guitar.precio }}</p>
-                    <button 
-                        type="button"
-                        class="btn fs-4 bg-primary text-white py-2 px-5"
-                        @click="$emit('add-to-cart', guitar)"
-                    >
+                    <button type="button" class="btn fs-4 bg-primary text-white py-2 px-5"
+                        @click="$emit('add-to-cart', guitar)">
                         Agregar al Carrito
                     </button>
                 </div>
@@ -126,6 +104,4 @@ const total = computed(() => {
     </header>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

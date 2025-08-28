@@ -1,10 +1,10 @@
 <script setup>
-import {ref, onMounted, watch} from 'vue'
-import {db} from './data/guitars'
+import { ref, onMounted, watch } from 'vue'
+import { db } from './data/guitars'
 
-import Guitar from './components/Guitar.vue'
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
+import Guitar from './components/AppGuitar.vue'
+import Header from './components/AppHeader.vue'
+import Footer from './components/AppFooter.vue'
 
 
 const guitars = ref([])
@@ -15,7 +15,7 @@ const saveLocalStorage = () => {
     localStorage.setItem('cart', JSON.stringify(cart.value))
 }
 
-watch(cart, saveLocalStorage, {deep: true})
+watch(cart, saveLocalStorage, { deep: true })
 
 onMounted(() => {
     guitars.value = db
@@ -33,7 +33,7 @@ const addToCart = (guitar) => {
 
     if (exists !== -1) {
         cart.value[exists].quantity++
-    }else{
+    } else {
         guitar.quantity = 1
         cart.value.push(guitar)
     }
@@ -49,7 +49,7 @@ const clearCart = () => {
 
 const addQuantity = (id) => {
     const exists = cart.value.findIndex(item => item.id === id)
-    
+
     if (exists === -1) {
         return
     }
@@ -79,25 +79,14 @@ const subtractQuantity = (id) => {
 
 <template>
 
-    <Header 
-        :cart="cart"
-        :guitar="guitar"
-        @add-quantity="addQuantity"
-        @subtract-quantity="subtractQuantity"
-        @remove-from-cart="removeFromCart"
-        @clear-cart="clearCart"
-        @add-to-cart="addToCart"
-    />
+    <Header :cart="cart" :guitar="guitar" @add-quantity="addQuantity" @subtract-quantity="subtractQuantity"
+        @remove-from-cart="removeFromCart" @clear-cart="clearCart" @add-to-cart="addToCart" />
 
     <main class="container-xl mt-5">
         <h2 class="text-center">Nuestra Colección</h2>
 
         <div class="row mt-5">
-            <Guitar 
-                v-for="guitar in guitars"
-                :guitar="guitar"
-                @add-to-cart="addToCart"
-            />
+            <Guitar v-for="guitar in guitars" :key="guitar.id" :guitar="guitar" @add-to-cart="addToCart" />
             <!-- <p v-for="guitar in guitars">{{ guitar.nombre }}</p> -->
         </div>
     </main>
@@ -107,6 +96,4 @@ const subtractQuantity = (id) => {
 
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
